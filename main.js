@@ -7445,7 +7445,7 @@ var $elm_explorations$webgl$WebGL$entity = $elm_explorations$webgl$WebGL$entityW
 	_List_fromArray(
 		[$elm_explorations$webgl$WebGL$Settings$DepthTest$default]));
 var $author$project$Main$fragmentShader = {
-	src: '\n\n\nprecision mediump float;\nvarying float time;\n\nconst float PI = 3.14159265359;\nconst float shade = 0.8;\n\nvoid main () {\n  float time_scaled = time/100.0;\n  gl_FragColor = shade * vec4(sin(time_scaled+PI), sin(time_scaled), cos(time_scaled), 1.0);\n}\n\n',
+	src: '\n\nprecision mediump float;\nvarying float time;  // expect time in milliseconds (like your original)\n\n//\n// OKLab/OKLCh utilities (Björn Ottosson\'s matrices)\n//\n\nvec3 oklab_to_linear_srgb(vec3 lab) {\n    float L = lab.x, a = lab.y, b = lab.z;\n\n    float l_ = L + 0.3963377774*a + 0.2158037573*b;\n    float m_ = L - 0.1055613458*a - 0.0638541728*b;\n    float s_ = L - 0.0894841775*a - 1.2914855480*b;\n\n    float l = l_*l_*l_;\n    float m = m_*m_*m_;\n    float s = s_*s_*s_;\n\n    return vec3(\n        +4.0767416621*l - 3.3077115913*m + 0.2309699292*s,\n        -1.2684380046*l + 2.6097574011*m - 0.3413193965*s,\n        -0.0041960863*l - 0.7034186147*m + 1.7076147010*s\n    );\n}\n\n// linear -> sRGB (gamma encode)\nfloat lin2srgb(float c) {\n    return (c <= 0.0031308) ? (12.92*c) : (1.055*pow(c, 1.0/2.4) - 0.055);\n}\nvec3 lin2srgb(vec3 c) { return vec3(lin2srgb(c.r), lin2srgb(c.g), lin2srgb(c.b)); }\n\n// OKLCh -> sRGB\nvec3 oklch_to_srgb(float L, float C, float h_rad) {\n    float a = C * cos(h_rad);\n    float b = C * sin(h_rad);\n    vec3 lab = vec3(L, a, b);\n    vec3 lin = oklab_to_linear_srgb(lab);\n    return lin2srgb(lin);\n}\n\nvoid main() {\n    // animate hue\n    float t = time * 0.001;              // seconds\n    float hueTurns = fract(0.6111 + t*0.5); // start ~220° (light cyan), 0.05 turns/sec\n    float hueRad = hueTurns * 6.28318530718;\n\n    // pick a light, in-gamut sweep (adjust if you see clipping)\n    float L = 0.80;   // 0.83 perceptual lightness (0..1)\n    float C = 0.08;   // chroma (reduce if you notice clipping/banding)\n\n    vec3 rgb = oklch_to_srgb(L, C, hueRad);\n\n    // basic clamp for safety; if this clips, lower C or tweak L\n    rgb = clamp(rgb, 0.0, 1.0);\n\n    gl_FragColor = vec4(rgb, 1.0);\n}\n\n\n',
 	attributes: {},
 	uniforms: {}
 };
@@ -7552,6 +7552,13 @@ var $author$project$Main$body_html = function (model) {
 				[
 					A2(
 					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('RYAN REYES')
+						])),
+					A2(
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$class('top-container')
@@ -7572,25 +7579,6 @@ var $author$project$Main$body_html = function (model) {
 									_List_fromArray(
 										[
 											$elm$html$Html$text('GITHUB')
-										]))
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('hide')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$a,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$href('https://ourobo.rs')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('BLOG')
 										]))
 								])),
 							A2(

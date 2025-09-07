@@ -619,9 +619,10 @@ view model =
 body_html : Model -> List (Html.Html Msg)
 body_html model =
     [ div [ class "all-container" ]
-        [ div [ class "top-container" ]
+        [
+          div [] [ text "RYAN REYES" ]
+          , div [ class "top-container" ]
             [ div [] [ a [ href "https://github.com/ryry0" ] [ text "GITHUB" ] ]
-            , div [ class "hide" ] [ a [ href "https://ourobo.rs" ] [ text "BLOG" ] ]
             , div []
                 [ a
                     [ href "https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-online.pdf" ]
@@ -660,21 +661,72 @@ void main () {
 
 |]
 
+--Speed: change t*0.05 (turns per second).
+--Start hue: change 0.6111 (0..1 turns; 0=red, ~0.33=green, ~0.66=blue).
+--Brightness: raise/lower L (0..1).
+--Color strength: raise/lower C (stay modest, e.g. 0.05–0.12, to remain in sRGB gamut without clipping).
 
 fragmentShader : Shader {} u { time : Float }
 fragmentShader =
     [glsl|
 
-
 precision mediump float;
-varying float time;
+varying float time;  // expect time in milliseconds (like your original)
 
-const float PI = 3.14159265359;
-const float shade = 0.8;
+//
+// OKLab/OKLCh utilities (Björn Ottosson's matrices)
+//
 
-void main () {
-  float time_scaled = time/100.0;
-  gl_FragColor = shade * vec4(sin(time_scaled+PI), sin(time_scaled), cos(time_scaled), 1.0);
+vec3 oklab_to_linear_srgb(vec3 lab) {
+    float L = lab.x, a = lab.y, b = lab.z;
+
+    float l_ = L + 0.3963377774*a + 0.2158037573*b;
+    float m_ = L - 0.1055613458*a - 0.0638541728*b;
+    float s_ = L - 0.0894841775*a - 1.2914855480*b;
+
+    float l = l_*l_*l_;
+    float m = m_*m_*m_;
+    float s = s_*s_*s_;
+
+    return vec3(
+        +4.0767416621*l - 3.3077115913*m + 0.2309699292*s,
+        -1.2684380046*l + 2.6097574011*m - 0.3413193965*s,
+        -0.0041960863*l - 0.7034186147*m + 1.7076147010*s
+    );
 }
+
+// linear -> sRGB (gamma encode)
+float lin2srgb(float c) {
+    return (c <= 0.0031308) ? (12.92*c) : (1.055*pow(c, 1.0/2.4) - 0.055);
+}
+vec3 lin2srgb(vec3 c) { return vec3(lin2srgb(c.r), lin2srgb(c.g), lin2srgb(c.b)); }
+
+// OKLCh -> sRGB
+vec3 oklch_to_srgb(float L, float C, float h_rad) {
+    float a = C * cos(h_rad);
+    float b = C * sin(h_rad);
+    vec3 lab = vec3(L, a, b);
+    vec3 lin = oklab_to_linear_srgb(lab);
+    return lin2srgb(lin);
+}
+
+void main() {
+    // animate hue
+    float t = time * 0.001;              // seconds
+    float hueTurns = fract(0.6111 + t*0.5); // start ~220° (light cyan), 0.05 turns/sec
+    float hueRad = hueTurns * 6.28318530718;
+
+    // pick a light, in-gamut sweep (adjust if you see clipping)
+    float L = 0.80;   // 0.83 perceptual lightness (0..1)
+    float C = 0.08;   // chroma (reduce if you notice clipping/banding)
+
+    vec3 rgb = oklch_to_srgb(L, C, hueRad);
+
+    // basic clamp for safety; if this clips, lower C or tweak L
+    rgb = clamp(rgb, 0.0, 1.0);
+
+    gl_FragColor = vec4(rgb, 1.0);
+}
+
 
 |]
