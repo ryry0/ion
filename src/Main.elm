@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Browser.Events
-import Html exposing (a, button, div, input, option, select, text)
+import Html exposing (a, button, div, input, option, select, text, em)
 import Html.Attributes exposing (class, height, href, style, width)
 import Html.Events exposing (onClick, onInput)
 import Math.Matrix4 exposing (..)
@@ -621,6 +621,9 @@ body_html model =
     [ div [ class "all-container" ]
         [
           div [] [ text "RYAN REYES" ]
+          , div [ style "width" "20px", style "display" "inline-block" ] [ text " " ]
+          , div [ class "aboutme"] [ em [] [ text "I build systems at the edge of robotics, hardware, and art" ] ]
+          , div [] [ text "⟡" ]
           , div [ class "top-container" ]
             [ div [] [ a [ href "https://github.com/ryry0" ] [ text "GITHUB" ] ]
             , div []
@@ -632,7 +635,7 @@ body_html model =
         , div [ class "canvas-container" ]
             [ --select [ onInput Select ] (List.map attractorOption
             --attractorlist) , button [ onClick Reset ] [ text "Reset" ],
-              a [ href "https://recu.rs/Doodles" ] [ glview model ]
+              a [ href "https://recu.rs/ivity" ] [ glview model ]
             ]
         ]
     ]
