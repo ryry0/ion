@@ -625,8 +625,8 @@ body_html model =
           --, div [ class "aboutme"] [ em [] [ text "I build systems at the edge of robotics, hardware, and art" ] ]
           --, div [] [ text "⟡" ]
           , div [ class "top-container" ]
-            [ div [] [ a [ href "https://github.com/ryry0" ] [ text "GITHUB" ] ]
-            , div [] [ a [ href "https://recu.rs/ive-atelier" ] [ text "PORTFOLIO" ] ]
+            [ --div [] [ a [ href "https://github.com/ryry0" ] [ text "GITHUB" ] ]
+            div [] [ a [ href "https://recu.rs/ive-atelier" ] [ text "PORTFOLIO" ] ]
             , div []
                 [ a
                     [ href "https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-online.pdf" ]

@@ -7585,22 +7585,6 @@ var $author$project$Main$body_html = function (model) {
 									$elm$html$Html$a,
 									_List_fromArray(
 										[
-											$elm$html$Html$Attributes$href('https://github.com/ryry0')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('GITHUB')
-										]))
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$a,
-									_List_fromArray(
-										[
 											$elm$html$Html$Attributes$href('https://recu.rs/ive-atelier')
 										]),
 									_List_fromArray(
