@@ -22,6 +22,10 @@ body {
         /* transform:translateX(calc(-1*(100% - 100vw)/2)); */
 }
 
+.aboutme {
+        font-size: clamp(1rem, 1rem, 1rem);
+}
+
 .top-container {
         display: flex;
         justify-content: space-between;
