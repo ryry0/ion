@@ -622,8 +622,8 @@ body_html model =
         [
           div [] [ text "RYAN REYES" ]
           , div [ style "width" "20px", style "display" "inline-block" ] [ text " " ]
-          , div [ class "aboutme"] [ em [] [ text "I build systems at the edge of robotics, hardware, and art" ] ]
-          , div [] [ text "⟡" ]
+          --, div [ class "aboutme"] [ em [] [ text "I build systems at the edge of robotics, hardware, and art" ] ]
+          --, div [] [ text "⟡" ]
           , div [ class "top-container" ]
             [ div [] [ a [ href "https://github.com/ryry0" ] [ text "GITHUB" ] ]
             , div []

@@ -7365,7 +7365,6 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$html$Html$em = _VirtualDom_node('em');
 var $elm_explorations$webgl$WebGL$Internal$DepthTest = F4(
 	function (a, b, c, d) {
 		return {$: 'DepthTest', a: a, b: b, c: c, d: d};
@@ -7568,29 +7567,6 @@ var $author$project$Main$body_html = function (model) {
 					_List_fromArray(
 						[
 							$elm$html$Html$text(' ')
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('aboutme')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$em,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('I build systems at the edge of robotics, hardware, and art')
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('⟡')
 						])),
 					A2(
 					$elm$html$Html$div,
