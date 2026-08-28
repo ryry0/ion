@@ -7601,7 +7601,7 @@ var $author$project$Main$body_html = function (model) {
 									$elm$html$Html$a,
 									_List_fromArray(
 										[
-											$elm$html$Html$Attributes$href('https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-online.pdf')
+											$elm$html$Html$Attributes$href('https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-resume.pdf')
 										]),
 									_List_fromArray(
 										[

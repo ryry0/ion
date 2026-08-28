@@ -629,7 +629,7 @@ body_html model =
             div [] [ a [ href "https://recu.rs/ive-atelier" ] [ text "PORTFOLIO" ] ]
             , div []
                 [ a
-                    [ href "https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-online.pdf" ]
+                    [ href "https://raw.githubusercontent.com/ryry0/LaTeX-Resume/master/reyes-resume.pdf" ]
                     [ text "RÉSUMÉ" ]
                 ]
             ]
